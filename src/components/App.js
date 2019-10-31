@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {startGame,cancelGame} from '../actions/settings';
 import {fetchNewDeck} from '../actions/deck';
+import fetchStates from '../reducers/fetchStates';
 import Instructions from './Instructions';
-
 
   class App extends Component {
 
@@ -12,11 +12,22 @@ import Instructions from './Instructions';
       this.props.fetchNewDeck();
     }
     render(){
-      console.log('this',this)
+      console.log('this',this);
+
+      if(this.props.fetchState===fetchStates.error){
+        return(
+          <div>
+            <p> Please try reloading the app.An error occurred</p>
+            <p> {this.props.message} </p>
+          </div>
+        )
+      }
+
       return (
         <div>
           <h2>♥️♠️Evens or Odds♦️♣️</h2>
-          {this.props.gameStarted?(
+          {
+            this.props.gameStarted?(
             <div>
               <h3>The game is on </h3>
               <br/>
@@ -35,11 +46,15 @@ import Instructions from './Instructions';
         </div>
     );
     }
-}
+  }
 
 const mapStateToProps= state => {
-  console.log('state',state);
-  return{gameStarted:state.gameStarted};
+  const{
+   settings:{gameStarted},
+   deck:{fetchState,message}
+  }=state;
+
+  return{gameStarted,fetchState,message};
 }
 
 /*const mapDispatchToProps=dispatch=>{

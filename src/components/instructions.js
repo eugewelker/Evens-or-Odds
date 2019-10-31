@@ -26,8 +26,9 @@ const Instructions = props => {
       <button onClick={expandInstructions}>Read more</button>
     </div>
   )
-
 }
 
-export default connect(state => ({instructionsExpanded:state.instructionsExpanded})
-,{expandInstructions,collapseInstructions})(Instructions);
+export default connect(
+  state => ({instructionsExpanded:state.settings.instructionsExpanded}),
+  {expandInstructions,collapseInstructions})
+  (Instructions);

@@ -35157,11 +35157,36 @@ var _reactRedux = require("react-redux");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var correctGuessesRecordKey = 'CORRECT_GUESSES_RECORD_foo123';
+
+var checkRecord = function checkRecord(correctGuesses) {
+  var record = Number(localStorage.getItem(correctGuessesRecordKey));
+
+  if (correctGuesses > record) {
+    localStorage.setItem(correctGuessesRecordKey, correctGuesses);
+    return {
+      record: correctGuesses,
+      isNewRecord: true
+    };
+  }
+
+  return {
+    record: record,
+    isNewRecord: false
+  };
+};
+
 var GameState = function GameState(_ref) {
   var remaining = _ref.remaining,
       correctGuesses = _ref.correctGuesses;
   var guessText = correctGuesses === 1 ? 'guess' : 'guesses';
-  return _react.default.createElement("div", null, _react.default.createElement("p", null, remaining, " cards remaining"), _react.default.createElement("p", null, correctGuesses, " correct ", guessText));
+
+  var _checkRecord = checkRecord(correctGuesses),
+      record = _checkRecord.record,
+      isNewRecord = _checkRecord.isNewRecord;
+
+  var recordLabel = isNewRecord ? '🎉 New record' : 'Record';
+  return _react.default.createElement("div", null, _react.default.createElement("h3", null, recordLabel, ": ", record), _react.default.createElement("p", null, remaining, " cards remaining"), _react.default.createElement("p", null, correctGuesses, " correct ", guessText));
 };
 
 var _default = (0, _reactRedux.connect)(function (_ref2) {
@@ -35436,7 +35461,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var DEFAULT_GAME_STATE = {
   guess: '',
-  correctGuess: 0
+  correctGuesses: 0
 };
 var EVENS = ['2', '4', '6', '8', '0'];
 var ODDS = ['ACE', '3', '5', '7', '9'];
@@ -35630,7 +35655,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60593" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60740" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

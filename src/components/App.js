@@ -7,6 +7,7 @@ import Instructions from './Instructions';
 import DrawCard from './DrawCard';
 import Card from './Card';
 import Guess from './Guess';
+import GameState from './GameState';
 
   class App extends Component {
 
@@ -33,6 +34,8 @@ import Guess from './Guess';
             this.props.gameStarted?(
             <div>
               <h3>The game is on </h3>
+              <br/>
+               <GameState />
               <br/>
               <Guess />
               <br/>

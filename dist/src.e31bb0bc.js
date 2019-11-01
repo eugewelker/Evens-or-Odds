@@ -35143,7 +35143,38 @@ var _default = (0, _reactRedux.connect)(function (_ref2) {
 })(Guess);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/guess":"actions/guess.js"}],"components/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/guess":"actions/guess.js"}],"components/GameState.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactRedux = require("react-redux");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GameState = function GameState(_ref) {
+  var remaining = _ref.remaining,
+      correctGuesses = _ref.correctGuesses;
+  var guessText = correctGuesses === 1 ? 'guess' : 'guesses';
+  return _react.default.createElement("div", null, _react.default.createElement("p", null, remaining, " cards remaining"), _react.default.createElement("p", null, correctGuesses, " correct ", guessText));
+};
+
+var _default = (0, _reactRedux.connect)(function (_ref2) {
+  var remaining = _ref2.deck.remaining,
+      correctGuesses = _ref2.gameState.correctGuesses;
+  return {
+    remaining: remaining,
+    correctGuesses: correctGuesses
+  };
+})(GameState);
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35168,6 +35199,8 @@ var _DrawCard = _interopRequireDefault(require("./DrawCard"));
 var _Card = _interopRequireDefault(require("./Card"));
 
 var _Guess = _interopRequireDefault(require("./Guess"));
+
+var _GameState = _interopRequireDefault(require("./GameState"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35231,7 +35264,7 @@ function (_Component) {
         return _react.default.createElement("div", null, _react.default.createElement("p", null, " Please try reloading the app.An error occurred"), _react.default.createElement("p", null, " ", this.props.message, " "));
       }
 
-      return _react.default.createElement("div", null, _react.default.createElement("h2", null, "\u2665\uFE0F\u2660\uFE0FEvens or Odds\u2666\uFE0F\u2663\uFE0F"), this.props.gameStarted ? _react.default.createElement("div", null, _react.default.createElement("h3", null, "The game is on "), _react.default.createElement("br", null), _react.default.createElement(_Guess.default, null), _react.default.createElement("br", null), _react.default.createElement(_DrawCard.default, null), _react.default.createElement("hr", null), _react.default.createElement(_Card.default, null), _react.default.createElement("hr", null), _react.default.createElement("button", {
+      return _react.default.createElement("div", null, _react.default.createElement("h2", null, "\u2665\uFE0F\u2660\uFE0FEvens or Odds\u2666\uFE0F\u2663\uFE0F"), this.props.gameStarted ? _react.default.createElement("div", null, _react.default.createElement("h3", null, "The game is on "), _react.default.createElement("br", null), _react.default.createElement(_GameState.default, null), _react.default.createElement("br", null), _react.default.createElement(_Guess.default, null), _react.default.createElement("br", null), _react.default.createElement(_DrawCard.default, null), _react.default.createElement("hr", null), _react.default.createElement(_Card.default, null), _react.default.createElement("hr", null), _react.default.createElement("button", {
         onClick: this.props.cancelGame
       }, "Cancel Game")) : _react.default.createElement("div", null, _react.default.createElement("h3", null, "A new game awaits"), _react.default.createElement("br", null), _react.default.createElement("button", {
         onClick: this.startGame
@@ -35271,7 +35304,7 @@ var componentConnector = (0, _reactRedux.connect)(mapStateToProps, {
 var _default = componentConnector(App);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/settings":"actions/settings.js","../actions/deck":"actions/deck.js","../reducers/fetchStates":"reducers/fetchStates.js","./Instructions":"components/Instructions.js","./DrawCard":"components/DrawCard.js","./Card":"components/Card.js","./Guess":"components/Guess.js"}],"reducers/settings.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/settings":"actions/settings.js","../actions/deck":"actions/deck.js","../reducers/fetchStates":"reducers/fetchStates.js","./Instructions":"components/Instructions.js","./DrawCard":"components/DrawCard.js","./Card":"components/Card.js","./Guess":"components/Guess.js","./GameState":"components/GameState.js"}],"reducers/settings.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35385,7 +35418,7 @@ var deckReducer = function deckReducer() {
 
 var _default = deckReducer;
 exports.default = _default;
-},{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/gameStates.js":[function(require,module,exports) {
+},{"../actions/types":"actions/types.js","./fetchStates":"reducers/fetchStates.js"}],"reducers/gameState.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35402,8 +35435,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var DEFAULT_GAME_STATE = {
-  guess: ''
+  guess: '',
+  correctGuess: 0
 };
+var EVENS = ['2', '4', '6', '8', '0'];
+var ODDS = ['ACE', '3', '5', '7', '9'];
 
 var gameStateReducer = function gameStateReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_GAME_STATE;
@@ -35417,6 +35453,19 @@ var gameStateReducer = function gameStateReducer() {
 
     case _types.SET_GAME_STARTED:
       return DEFAULT_GAME_STATE;
+
+    case _types.DECK_DRAW.FETCH_SUCCESS:
+      var value = action.cards[0].value;
+      var guess = state.guess,
+          correctGuesses = state.correctGuesses;
+
+      if (guess === 'even' && EVENS.includes(value) || guess === 'odd' && ODDS.includes(value)) {
+        return _objectSpread({}, state, {
+          correctGuesses: correctGuesses + 1
+        });
+      }
+
+      return state;
 
     default:
       return state;
@@ -35439,18 +35488,18 @@ var _settings = _interopRequireDefault(require("./settings"));
 
 var _deck = _interopRequireDefault(require("./deck"));
 
-var _gameStates = _interopRequireDefault(require("./gameStates"));
+var _gameState = _interopRequireDefault(require("./gameState"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = (0, _redux.combineReducers)({
   settings: _settings.default,
   deck: _deck.default,
-  gameState: _gameStates.default
+  gameState: _gameState.default
 });
 
 exports.default = _default;
-},{"redux":"../node_modules/redux/es/redux.js","./settings":"reducers/settings.js","./deck":"reducers/deck.js","./gameStates":"reducers/gameStates.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"redux":"../node_modules/redux/es/redux.js","./settings":"reducers/settings.js","./deck":"reducers/deck.js","./gameState":"reducers/gameState.js"}],"../../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -35581,7 +35630,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55463" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60593" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -34963,7 +34963,33 @@ var _default = (0, _reactRedux.connect)(function (state) {
 })(Instructions);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/settings":"actions/settings.js"}],"components/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/settings":"actions/settings.js"}],"components/DrawCard.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactRedux = require("react-redux");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DrawCard = function DrawCard(props) {
+  return _react.default.createElement("div", null, _react.default.createElement("button", null, "Draw the next card!"));
+};
+
+var _default = (0, _reactRedux.connect)(function (_ref) {
+  var deck_id = _ref.deck.deck_id;
+  return {
+    deck_id: deck_id
+  };
+})(DrawCard);
+
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js"}],"components/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34982,6 +35008,8 @@ var _deck = require("../actions/deck");
 var _fetchStates = _interopRequireDefault(require("../reducers/fetchStates"));
 
 var _Instructions = _interopRequireDefault(require("./Instructions"));
+
+var _DrawCard = _interopRequireDefault(require("./DrawCard"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35045,7 +35073,7 @@ function (_Component) {
         return _react.default.createElement("div", null, _react.default.createElement("p", null, " Please try reloading the app.An error occurred"), _react.default.createElement("p", null, " ", this.props.message, " "));
       }
 
-      return _react.default.createElement("div", null, _react.default.createElement("h2", null, "\u2665\uFE0F\u2660\uFE0FEvens or Odds\u2666\uFE0F\u2663\uFE0F"), this.props.gameStarted ? _react.default.createElement("div", null, _react.default.createElement("h3", null, "The game is on "), _react.default.createElement("br", null), _react.default.createElement("button", {
+      return _react.default.createElement("div", null, _react.default.createElement("h2", null, "\u2665\uFE0F\u2660\uFE0FEvens or Odds\u2666\uFE0F\u2663\uFE0F"), this.props.gameStarted ? _react.default.createElement("div", null, _react.default.createElement("h3", null, "The game is on "), _react.default.createElement("br", null), _react.default.createElement(_DrawCard.default, null), _react.default.createElement("hr", null), _react.default.createElement("button", {
         onClick: this.props.cancelGame
       }, "Cancel Game")) : _react.default.createElement("div", null, _react.default.createElement("h3", null, "A new game awaits"), _react.default.createElement("br", null), _react.default.createElement("button", {
         onClick: this.startGame
@@ -35085,7 +35113,7 @@ var componentConnector = (0, _reactRedux.connect)(mapStateToProps, {
 var _default = componentConnector(App);
 
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/settings":"actions/settings.js","../actions/deck":"actions/deck.js","../reducers/fetchStates":"reducers/fetchStates.js","./Instructions":"components/Instructions.js"}],"reducers/settings.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../actions/settings":"actions/settings.js","../actions/deck":"actions/deck.js","../reducers/fetchStates":"reducers/fetchStates.js","./Instructions":"components/Instructions.js","./DrawCard":"components/DrawCard.js"}],"reducers/settings.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
